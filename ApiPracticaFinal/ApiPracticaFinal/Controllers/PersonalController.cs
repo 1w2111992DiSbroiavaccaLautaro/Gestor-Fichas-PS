@@ -1,4 +1,5 @@
 ﻿using ApiPracticaFinal.Models;
+using ApiPracticaFinal.Models.DTO.PersonalesDTO;
 using ApiPracticaFinal.Repository.Personales;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,27 +31,30 @@ namespace ApiPracticaFinal.Controllers.Personales
 
         // GET api/<PersonalController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<List<Personal>> GetId(int id)
         {
-            return "value";
+            return await personalRepository.GetPersonalId(id);
         }
 
         // POST api/<PersonalController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<Personal> Post(PersonalInsert insert)
         {
+            return await personalRepository.Create(insert);
         }
 
         // PUT api/<PersonalController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<Personal> Put(PersonalUpdate update)
         {
+            return await personalRepository.Update(update);
         }
 
         // DELETE api/<PersonalController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
+            return await personalRepository.Delete(id);
         }
     }
 }
