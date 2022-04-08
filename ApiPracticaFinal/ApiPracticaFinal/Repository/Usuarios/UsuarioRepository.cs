@@ -105,5 +105,45 @@ namespace ApiPracticaFinal.Repository.Usuarios
                 return resultado;
             }
         }
+
+        public async Task<bool> UpdatePassword(UsuarioUpdatePass usu)
+        {
+            UsuarioUpdatePass u = new UsuarioUpdatePass
+            {
+                Email = usu.Email,
+                PasswordNueva = usu.PasswordNueva,
+                PasswordVieja = usu.PasswordVieja
+            };
+
+            var usuario = context.Usuarios.SingleOrDefault(x => x.Email == usu.Email);
+            bool isValidPassword = BCrypt.Net.BCrypt.Verify(usu.PasswordVieja, usuario.Password);
+            if (isValidPassword)
+            {
+                usuario.Password = BCrypt.Net.BCrypt.HashPassword(usu.PasswordNueva);
+                context.Usuarios.Update(usuario);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                throw new Exception("Usuario y/o password incorrectos");
+            }
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var usuario = await context.Usuarios.FindAsync(id);
+            if(usuario != null)
+            {
+                usuario.Activo = false;
+                context.Usuarios.Update(usuario);
+                await context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                throw new Exception("No se encontro el usuario");
+            }
+        }
     }
 }

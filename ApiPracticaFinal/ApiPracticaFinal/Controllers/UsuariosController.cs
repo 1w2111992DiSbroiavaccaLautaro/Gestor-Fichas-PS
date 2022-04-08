@@ -2,6 +2,7 @@
 using ApiPracticaFinal.Models.DTO.UsuariosDTO;
 using ApiPracticaFinal.Repository.Usuarios;
 using ApiPracticaFinal.Resultados;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,6 @@ namespace ApiPracticaFinal.Controllers
             return await usuarioRepository.Signup(usu);
         }
 
-
         [HttpPost("Login")]
         public ActionResult<ResultadosApi> Login(UsuarioLogin usu)
         {
@@ -52,15 +52,17 @@ namespace ApiPracticaFinal.Controllers
         }
 
         // PUT api/<UsuariosController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdatePassword")]
+        public async Task<bool> UpdatePassword(UsuarioUpdatePass usuario)
         {
+            return await usuarioRepository.UpdatePassword(usuario);
         }
 
         // DELETE api/<UsuariosController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
+            return await usuarioRepository.Delete(id);
         }
     }
 }
