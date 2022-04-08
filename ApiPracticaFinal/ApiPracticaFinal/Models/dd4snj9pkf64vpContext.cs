@@ -530,39 +530,28 @@ namespace ApiPracticaFinal.Models
 
                 entity.ToTable("usuarios");
 
-                entity.HasComment("TRIAL");
-
                 entity.Property(e => e.Idusuario)
-                    .ValueGeneratedNever()
                     .HasColumnName("idusuario")
-                    .HasComment("TRIAL");
+                    .UseIdentityAlwaysColumn();
+
+                entity.Property(e => e.Activo).HasColumnName("activo");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .HasColumnName("email")
-                    .HasComment("TRIAL");
+                    .HasColumnName("email");
 
                 entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .HasColumnName("nombre")
-                    .HasComment("TRIAL");
+                    .HasColumnName("nombre");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .HasColumnName("password")
-                    .HasComment("TRIAL");
+                    .HasColumnName("password");
 
-                entity.Property(e => e.Rol)
-                    .HasColumnName("rol")
-                    .HasComment("TRIAL");
-
-                entity.Property(e => e.Trial519)
-                    .HasMaxLength(1)
-                    .HasColumnName("trial519")
-                    .HasComment("TRIAL");
+                entity.Property(e => e.Rol).HasColumnName("rol");
 
                 entity.HasOne(d => d.RolNavigation)
                     .WithMany(p => p.Usuarios)

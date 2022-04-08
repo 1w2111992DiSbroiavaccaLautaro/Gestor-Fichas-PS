@@ -11,8 +11,8 @@ namespace ApiPracticaFinal.Models
         public string Nombre { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public bool Activo { get; set; }
         public int Rol { get; set; }
-        public char? Trial519 { get; set; }
 
         public virtual Role RolNavigation { get; set; }
     }

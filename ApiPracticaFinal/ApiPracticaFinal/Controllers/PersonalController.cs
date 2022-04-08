@@ -1,6 +1,7 @@
 ﻿using ApiPracticaFinal.Models;
 using ApiPracticaFinal.Models.DTO.PersonalesDTO;
 using ApiPracticaFinal.Repository.Personales;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,7 @@ namespace ApiPracticaFinal.Controllers.Personales
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PersonalController : ControllerBase
     {
 

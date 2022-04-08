@@ -35,3 +35,14 @@ C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ref\ApiPracticaFinal.dll
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.pdb
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.genruntimeconfig.cache
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\SendGrid.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\StarkbankEcdsa.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\BCrypt.Net-Next.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
