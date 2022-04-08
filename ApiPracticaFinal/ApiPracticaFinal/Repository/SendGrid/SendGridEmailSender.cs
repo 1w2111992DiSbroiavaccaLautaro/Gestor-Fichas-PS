@@ -21,7 +21,7 @@ namespace ApiPracticaFinal.Repository.SendGrid
         }
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            string sendGridApiKey = configuration["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"];
+            string sendGridApiKey = configuration[""];
             if (string.IsNullOrEmpty(sendGridApiKey))
             {
                 throw new Exception("The 'SendGridApiKey' is not configured");
