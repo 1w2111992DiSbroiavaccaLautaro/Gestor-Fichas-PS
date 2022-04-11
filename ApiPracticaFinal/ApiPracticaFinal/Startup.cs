@@ -65,13 +65,32 @@ namespace ApiPracticaFinal
 
             services.AddSingleton<IUsuarioRepository>(new UsuarioRepository(key));
             services.AddTransient<IPersonalRepository, PersonalRepository>();
-            
+
+            services.AddCors(o => o.AddPolicy("Prog3", builder =>
+            {
+                builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+
+            }));
+            services.AddRouting(r => r.SuppressCheckForUnhandledSecurityMetadata = true);
+
             services.AddTransient<IEmailSender, SendGridEmailSender>();
+            services.AddTransient<IMailService, MailService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("Prog3");
+
+            app.Use((context, next) =>
+            {
+                context.Items["__CorsMiddlewareInvoked"] = true;
+                return next();
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

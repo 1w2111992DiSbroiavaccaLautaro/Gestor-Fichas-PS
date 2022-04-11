@@ -16,5 +16,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
         Task<Usuario> Signup(UsuarioSignUp oUser);
         Task<bool> Delete(int id);
         ResultadosApi Login(UsuarioLogin usu);
+        Task<Usuario> UpdateRol(UsuarioRolDTO usu);
+        Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu);
     }
 }

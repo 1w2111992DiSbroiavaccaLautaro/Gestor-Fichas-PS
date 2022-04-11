@@ -40,6 +40,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
             return tokenHandler.WriteToken(token);
         }
 
+        //metodo accesible solo para usuarios con rol 1
         public async Task<List<Usuario>> GetUsuariosAsync()
         {
             return await context.Usuarios.Where(x => x.Activo == true).ToListAsync();
@@ -106,6 +107,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
             }
         }
 
+        //metodo accesible para todos los usuarios
         public async Task<bool> UpdatePassword(UsuarioUpdatePass usu)
         {
             UsuarioUpdatePass u = new UsuarioUpdatePass
@@ -130,6 +132,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
             }
         }
 
+        //metodo accesible solo para usuarios con rol 1
         public async Task<bool> Delete(int id)
         {
             var usuario = await context.Usuarios.FindAsync(id);
@@ -139,6 +142,56 @@ namespace ApiPracticaFinal.Repository.Usuarios
                 context.Usuarios.Update(usuario);
                 await context.SaveChangesAsync();
                 return true;
+            }
+            else
+            {
+                throw new Exception("No se encontro el usuario");
+            }
+        }
+
+        //metodo accesible solo para usuarios con rol 1
+        public async Task<Usuario> UpdateRol(UsuarioRolDTO usu)
+        {
+            var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Idusuario == usu.Id);
+            if (usuario != null)
+            {
+                usuario.Rol = usu.Rol;
+                context.Usuarios.Update(usuario);
+                await context.SaveChangesAsync();
+                return usuario;
+            }
+            else
+            {
+                throw new Exception("Usuario no encontrado");
+            }
+        }
+
+        //validar desde el fron que se envie un mail correcto
+        //metodo accesible para todos los usuarios
+        public async Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu)
+        {
+            var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Idusuario == usu.Id);
+            if(usuario != null)
+            {
+                if(usu.Email == "" || usu.Email == "string")
+                {
+                    usuario.Email = usuario.Email;
+                }
+                else
+                {
+                    usuario.Email = usu.Email ?? usuario.Email;
+                }
+                if(usu.Nombre == "" || usu.Nombre == "string")
+                {
+                    usuario.Nombre = usuario.Nombre;
+                }
+                else
+                {
+                    usuario.Nombre = usu.Nombre ?? usuario.Nombre;
+                }
+                context.Usuarios.Update(usuario);
+                await context.SaveChangesAsync();
+                return usuario;
             }
             else
             {

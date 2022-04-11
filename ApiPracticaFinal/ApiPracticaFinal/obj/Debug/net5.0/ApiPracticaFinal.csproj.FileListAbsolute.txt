@@ -20,7 +20,6 @@ C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
-C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.csproj.AssemblyReference.cache
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.GeneratedMSBuildEditorConfig.editorconfig
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.AssemblyInfoInputs.cache
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.AssemblyInfo.cs
@@ -46,3 +45,8 @@ C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\obj\Debug\net5.0\ApiPracticaFinal.csproj.AssemblyReference.cache
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\MailKit.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\MimeKit.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\NETCore.MailKit.dll
+C:\Proyectos GitHub\Practica Supervisada\Back\Gestor-Fichas-PS\ApiPracticaFinal\ApiPracticaFinal\bin\Debug\net5.0\BouncyCastle.Crypto.dll

@@ -40,6 +40,7 @@ namespace ApiPracticaFinal.Models
         public string Link { get; set; }
         public bool? Convenio { get; set; }
         public char? Trial483 { get; set; }
+        public double? Monto { get; set; }
 
         public virtual ICollection<Areasxproyecto> Areasxproyectos { get; set; }
         public virtual ICollection<Equipoxproyecto> Equipoxproyectos { get; set; }
