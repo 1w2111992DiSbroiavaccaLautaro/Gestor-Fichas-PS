@@ -573,6 +573,8 @@ namespace ApiPracticaFinal.Models
                     .HasColumnName("id")
                     .HasComment("TRIAL");
 
+                entity.Property(e => e.Activo).HasColumnName("activo");
+
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(255)
                     .HasColumnName("nombre")

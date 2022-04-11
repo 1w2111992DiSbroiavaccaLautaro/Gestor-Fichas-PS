@@ -14,5 +14,6 @@ namespace ApiPracticaFinal.Models
         public char? Trial147 { get; set; }
         public char? Trial301 { get; set; }
         public char? Trial522 { get; set; }
+        public bool? Activo { get; set; }
     }
 }

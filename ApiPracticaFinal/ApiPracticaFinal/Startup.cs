@@ -3,6 +3,7 @@ using ApiPracticaFinal.Repository.Areas;
 using ApiPracticaFinal.Repository.Personales;
 using ApiPracticaFinal.Repository.SendGrid;
 using ApiPracticaFinal.Repository.Usuarios;
+using ApiPracticaFinal.Repository.Validador;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -67,6 +68,7 @@ namespace ApiPracticaFinal
             services.AddSingleton<IUsuarioRepository>(new UsuarioRepository(key));
             services.AddTransient<IPersonalRepository, PersonalRepository>();
             services.AddTransient<IAreaRepository, AreaRepository>();
+            services.AddTransient<IValidadorRepository, ValidadorRepository>();
 
             services.AddCors(o => o.AddPolicy("Prog3", builder =>
             {
