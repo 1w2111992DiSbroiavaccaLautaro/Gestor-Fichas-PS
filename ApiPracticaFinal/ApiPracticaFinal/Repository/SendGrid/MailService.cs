@@ -18,24 +18,37 @@ namespace ApiPracticaFinal.Repository.SendGrid
             this.configuration = configuration;
         }
 
-        public async Task SendEmail(string email, string subject, string htmlContent)
-        {
-            //string apiKey = configuration["SendGridApiKey"];
-            //var client = new SendGridClient(apiKey);
-            //var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
-            //var to = new EmailAddress(email);
-            //var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
-            //var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            //var response = await client.SendEmailAsync(msg);
+        //public async Task SendEmail(string email, string subject, string htmlContent)
+        //{
+        //    string apiKey = configuration["SendGridApiKey"];
+        //    var client = new SendGridClient(apiKey);
+        //    var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
+        //    var to = new EmailAddress(email);
+        //    var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
+        //    var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+        //    var response = await client.SendEmailAsync(msg);
 
-            var apiKey = configuration["SendGridApiKey"];
+        //    var apiKey = configuration["SendGridApiKey"];
+        //    var client = new SendGridClient(apiKey);
+        //    var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
+        //    var tema = subject;
+        //    var to = new EmailAddress(email, "Example User");
+        //    var plainTextContent = "and easy to do anywhere, even with C#";
+        //    var contenidoHtml = htmlContent;
+        //    var msg = MailHelper.CreateSingleEmail(from, to, tema, plainTextContent, contenidoHtml);
+        //    var response = await client.SendEmailAsync(msg);
+        //}
+
+        public async Task ExecuteMail()
+        {
+            var apiKey = Environment.GetEnvironmentVariable("ApiKey");
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
-            var tema = subject;
-            var to = new EmailAddress(email, "Example User");
+            var subject = "Sending with SendGrid is Fun";
+            var to = new EmailAddress("lautarodisbro@gmail.com", "Example to");
             var plainTextContent = "and easy to do anywhere, even with C#";
-            var contenidoHtml = htmlContent;
-            var msg = MailHelper.CreateSingleEmail(from, to, tema, plainTextContent, contenidoHtml);
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
             var response = await client.SendEmailAsync(msg);
         }
     }

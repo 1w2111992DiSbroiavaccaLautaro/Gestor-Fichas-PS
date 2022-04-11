@@ -33,7 +33,7 @@ namespace ApiPracticaFinal.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-               optionsBuilder.UseNpgsql("Server=ec2-54-80-123-146.compute-1.amazonaws.com; port=5432; user id = vdqlqjukrdasfg; password = 966b43760dde03f70dee9eb2bc502789f4448712a7794a0d8a31962642ddca9c; database=dd4snj9pkf64vp; pooling = true; SSL Mode=Prefer;Trust Server Certificate=true;");
+                optionsBuilder.UseNpgsql("Server=ec2-54-80-123-146.compute-1.amazonaws.com; port=5432; user id = vdqlqjukrdasfg; password = 966b43760dde03f70dee9eb2bc502789f4448712a7794a0d8a31962642ddca9c; database=dd4snj9pkf64vp; pooling = true; SSL Mode=Prefer;Trust Server Certificate=true;");
             }
         }
 
@@ -50,6 +50,8 @@ namespace ApiPracticaFinal.Models
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .HasComment("TRIAL");
+
+                entity.Property(e => e.Activo).HasColumnName("activo");
 
                 entity.Property(e => e.Area1)
                     .HasMaxLength(255)

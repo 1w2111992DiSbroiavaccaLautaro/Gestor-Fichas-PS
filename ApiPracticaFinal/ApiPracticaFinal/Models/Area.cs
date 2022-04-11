@@ -17,6 +17,7 @@ namespace ApiPracticaFinal.Models
         public char? Trial059 { get; set; }
         public char? Trial196 { get; set; }
         public char? Trial444 { get; set; }
+        public bool? Activo { get; set; }
 
         public virtual ICollection<Areasxproyecto> Areasxproyectos { get; set; }
     }

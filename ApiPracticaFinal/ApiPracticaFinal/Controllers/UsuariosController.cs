@@ -22,12 +22,10 @@ namespace ApiPracticaFinal.Controllers
     {
         private readonly IUsuarioRepository usuarioRepository;
         private readonly IMailService mailService;
-        private readonly IEmailSender emailSender;
-        public UsuariosController(IUsuarioRepository usuarioRepository, IMailService mailService, IEmailSender emailSender)
+        public UsuariosController(IUsuarioRepository usuarioRepository, IMailService mailService)
         {
             this.usuarioRepository = usuarioRepository;
             this.mailService = mailService;
-            this.emailSender = emailSender;
         }
         // GET: api/<UsuariosController>
         [HttpGet]
@@ -39,8 +37,8 @@ namespace ApiPracticaFinal.Controllers
         [HttpGet("sendMail")]
         public async Task<IActionResult> SendEmail()
         {
-            await emailSender.SendEmailAsync("lautaro42genial@gmail.com", "Mail enviado", "Hola lau");
-            //await mailService.SendEmail("lautaro42genial@gmail.com", "Email enviado", "<h1>Este es el cuerpo del correo</h1>");
+            //await emailSender.SendEmailAsync(email, tema, mensaje);
+            await mailService.ExecuteMail();
             return Ok();
         }
 

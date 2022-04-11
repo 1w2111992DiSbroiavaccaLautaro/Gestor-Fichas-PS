@@ -7,6 +7,7 @@ namespace ApiPracticaFinal.Repository.SendGrid
 {
     public interface IMailService
     {
-        Task SendEmail(string email, string subject, string htmlContent);
+        //Task SendEmail(string email, string subject, string htmlContent);
+        Task ExecuteMail();
     }
 }

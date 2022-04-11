@@ -1,4 +1,5 @@
 using ApiPracticaFinal.Models;
+using ApiPracticaFinal.Repository.Areas;
 using ApiPracticaFinal.Repository.Personales;
 using ApiPracticaFinal.Repository.SendGrid;
 using ApiPracticaFinal.Repository.Usuarios;
@@ -65,6 +66,7 @@ namespace ApiPracticaFinal
 
             services.AddSingleton<IUsuarioRepository>(new UsuarioRepository(key));
             services.AddTransient<IPersonalRepository, PersonalRepository>();
+            services.AddTransient<IAreaRepository, AreaRepository>();
 
             services.AddCors(o => o.AddPolicy("Prog3", builder =>
             {
@@ -75,7 +77,7 @@ namespace ApiPracticaFinal
             }));
             services.AddRouting(r => r.SuppressCheckForUnhandledSecurityMetadata = true);
 
-            services.AddTransient<IEmailSender, SendGridEmailSender>();
+            //services.AddTransient<IEmailSender, SendGridEmailSender>();
             services.AddTransient<IMailService, MailService>();
 
         }
