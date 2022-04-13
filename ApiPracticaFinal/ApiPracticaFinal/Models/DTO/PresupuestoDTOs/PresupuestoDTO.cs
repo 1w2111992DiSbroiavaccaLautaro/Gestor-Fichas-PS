@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace ApiPracticaFinal.Models
+namespace ApiPracticaFinal.Models.DTO.PresupuestoDTOs
 {
-    public partial class Presupuesto
+    public class PresupuestoDTO
     {
         public int Idpresupuesto { get; set; }
         public double Honorario { get; set; }
@@ -13,7 +13,5 @@ namespace ApiPracticaFinal.Models
         public double Equipamiento { get; set; }
         public double Gastos { get; set; }
         public int Idproyecto { get; set; }
-
-        public virtual Proyecto IdproyectoNavigation { get; set; }
     }
 }

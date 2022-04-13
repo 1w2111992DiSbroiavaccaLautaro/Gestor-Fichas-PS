@@ -226,37 +226,19 @@ namespace ApiPracticaFinal.Models
 
                 entity.ToTable("presupuestos");
 
-                entity.HasComment("TRIAL");
-
                 entity.Property(e => e.Idpresupuesto)
-                    .ValueGeneratedNever()
                     .HasColumnName("idpresupuesto")
-                    .HasComment("TRIAL");
+                    .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.Equipamiento)
-                    .HasColumnName("equipamiento")
-                    .HasComment("TRIAL");
+                entity.Property(e => e.Equipamiento).HasColumnName("equipamiento");
 
-                entity.Property(e => e.Gastos)
-                    .HasColumnName("gastos")
-                    .HasComment("TRIAL");
+                entity.Property(e => e.Gastos).HasColumnName("gastos");
 
-                entity.Property(e => e.Honorario)
-                    .HasColumnName("honorario")
-                    .HasComment("TRIAL");
+                entity.Property(e => e.Honorario).HasColumnName("honorario");
 
-                entity.Property(e => e.Idproyecto)
-                    .HasColumnName("idproyecto")
-                    .HasComment("TRIAL");
+                entity.Property(e => e.Idproyecto).HasColumnName("idproyecto");
 
-                entity.Property(e => e.Trial477)
-                    .HasMaxLength(1)
-                    .HasColumnName("trial477")
-                    .HasComment("TRIAL");
-
-                entity.Property(e => e.Viatico)
-                    .HasColumnName("viatico")
-                    .HasComment("TRIAL");
+                entity.Property(e => e.Viatico).HasColumnName("viatico");
 
                 entity.HasOne(d => d.IdproyectoNavigation)
                     .WithMany(p => p.Presupuestos)

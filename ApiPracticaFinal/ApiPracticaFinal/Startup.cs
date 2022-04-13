@@ -1,6 +1,7 @@
 using ApiPracticaFinal.Models;
 using ApiPracticaFinal.Repository.Areas;
 using ApiPracticaFinal.Repository.Personales;
+using ApiPracticaFinal.Repository.Proyectos;
 using ApiPracticaFinal.Repository.SendGrid;
 using ApiPracticaFinal.Repository.Usuarios;
 using ApiPracticaFinal.Repository.Validador;
@@ -71,6 +72,7 @@ namespace ApiPracticaFinal
             services.AddTransient<IPersonalRepository, PersonalRepository>();
             services.AddTransient<IAreaRepository, AreaRepository>();
             services.AddTransient<IValidadorRepository, ValidadorRepository>();
+            services.AddTransient<IProyectoRepository, ProyectoRepository>();
 
             services.AddCors(o => o.AddPolicy("Prog3", builder =>
             {
