@@ -43,7 +43,7 @@ namespace ApiPracticaFinal.Controllers
         public async Task<IActionResult> SendEmail()
         {
             //await emailSender.SendEmailAsync(email, tema, mensaje);
-            await mailService.ExecuteMail("lautarodisbro@gmail.com", "Login", "Holaaaa");
+            await mailService.ExecuteMail("lautarodisbro@gmail.com", "Login", "Holaaaa desde Swagger");
             return Ok();
         }
 
