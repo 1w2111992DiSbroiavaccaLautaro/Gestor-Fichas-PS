@@ -39,13 +39,13 @@ namespace ApiPracticaFinal.Controllers
             return await usuarioRepository.GetUsuariosAsync();
         }
 
-        //[HttpGet("sendMail")]
-        //public async Task<IActionResult> SendEmail()
-        //{
-        //    //await emailSender.SendEmailAsync(email, tema, mensaje);
-        //    await mailService.ExecuteMail("lautarodisbro@gmail.com", "Login");
-        //    return Ok();
-        //}
+        [HttpGet("sendMail")]
+        public async Task<IActionResult> SendEmail()
+        {
+            //await emailSender.SendEmailAsync(email, tema, mensaje);
+            await mailService.ExecuteMail("lautarodisbro@gmail.com", "Login", "Holaaaa");
+            return Ok();
+        }
 
         // GET api/<UsuariosController>/5
         [HttpGet("{id}")]
