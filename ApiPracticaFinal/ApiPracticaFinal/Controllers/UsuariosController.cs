@@ -6,9 +6,12 @@ using ApiPracticaFinal.Resultados;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,10 +25,12 @@ namespace ApiPracticaFinal.Controllers
     {
         private readonly IUsuarioRepository usuarioRepository;
         private readonly IMailService mailService;
-        public UsuariosController(IUsuarioRepository usuarioRepository, IMailService mailService)
+        private readonly IConfiguration configuration;
+        public UsuariosController(IUsuarioRepository usuarioRepository, IMailService mailService, IConfiguration configuration)
         {
             this.usuarioRepository = usuarioRepository;
             this.mailService = mailService;
+            this.configuration = configuration;
         }
         // GET: api/<UsuariosController>
         [HttpGet]
@@ -34,13 +39,13 @@ namespace ApiPracticaFinal.Controllers
             return await usuarioRepository.GetUsuariosAsync();
         }
 
-        [HttpGet("sendMail")]
-        public async Task<IActionResult> SendEmail()
-        {
-            //await emailSender.SendEmailAsync(email, tema, mensaje);
-            await mailService.ExecuteMail();
-            return Ok();
-        }
+        //[HttpGet("sendMail")]
+        //public async Task<IActionResult> SendEmail()
+        //{
+        //    //await emailSender.SendEmailAsync(email, tema, mensaje);
+        //    await mailService.ExecuteMail("lautarodisbro@gmail.com", "Login");
+        //    return Ok();
+        //}
 
         // GET api/<UsuariosController>/5
         [HttpGet("{id}")]
@@ -50,16 +55,41 @@ namespace ApiPracticaFinal.Controllers
         }
 
         // POST api/<UsuariosController>
+        //[HttpPost]
+        //public async Task<Usuario> Post(UsuarioSignUp usu)
+        //{
+        //    var usaurio = await usuarioRepository.Signup(usu);
+        //    var confirmToken = usuarioRepository.Authenticate(usu.Email, usu.Password);
+        //    var encodedToken = Encoding.UTF8.GetBytes(confirmToken);
+        //    var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+        //    string url = $"{configuration["AppUrl"]}/api/usuarios/confirmemail?userid={usaurio.Idusuario}&token={validEmailToken}";
+        //    await mailService.ExecuteMail(usu.Email, "Confirmar el mail", "<h1>Bienvenido a la confirmacion de mail</h1>" +
+        //        $"<p>Porfavor confirma su mail by <a href='{url}'>Click aca</a></p");
+        //    return usaurio;
+        //}
+
         [HttpPost]
         public async Task<Usuario> Post(UsuarioSignUp usu)
         {
-            return await usuarioRepository.Signup(usu);
+            var usuario = await usuarioRepository.Signup(usu);
+            //var confirmToken = usuarioRepository.Authenticate(usu.Email, usu.Password);
+            //var encodedToken = Encoding.UTF8.GetBytes(confirmToken);
+            //var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+            string url = $"{configuration["AppUrl"]}/api/usuarios/confirmemail?userid={usuario.Idusuario}&pass={usu.Password}";
+            await mailService.ExecuteMail(usu.Email, "Confirmar el mail", "<h1>Bienvenido a la confirmacion de mail</h1>" +
+                $"<p>Porfavor confirma su mail by <a href='{url}'>Click aca</a></p");
+            return usuario;
         }
 
         [HttpPost("Login")]
         public ActionResult<ResultadosApi> Login(UsuarioLogin usu)
         {
-            return usuarioRepository.Login(usu);
+            var usuario = usuarioRepository.Login(usu);
+            if (usuario.Ok)
+            {
+                mailService.ExecuteMail(usu.Email, "Nuevo login", "<h1>Nuevo login a las " + DateTime.Now + "</h1>");
+            }
+            return usuario;
         }
 
         // PUT api/<UsuariosController>/5
@@ -86,6 +116,24 @@ namespace ApiPracticaFinal.Controllers
         public async Task<bool> Delete(int id)
         {
             return await usuarioRepository.Delete(id);
+        }
+
+        [HttpGet("confirmemail")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string pass)
+        {
+            if(string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(pass))
+            {
+                return NotFound();
+            }
+            
+            var result = await mailService.ConfirmEmailPassAync(userId, pass);
+
+            if (result.Ok)
+            {
+                return Redirect($"{configuration["AppUrl"]}/confirmEmail.html");
+            }
+            return BadRequest(result);
+
         }
     }
 }

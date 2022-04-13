@@ -6,50 +6,108 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
+using ApiPracticaFinal.Models;
+using ApiPracticaFinal.Repository.Usuarios;
+using System.Text;
+using Microsoft.AspNetCore.WebUtilities;
+using ApiPracticaFinal.Resultados;
 
 namespace ApiPracticaFinal.Repository.SendGrid
 {
     public class MailService : IMailService
     {
         private readonly IConfiguration configuration;
+        private readonly dd4snj9pkf64vpContext context;
 
-        public MailService(IConfiguration configuration)
+        public MailService(IConfiguration configuration, dd4snj9pkf64vpContext context)
         {
             this.configuration = configuration;
+            this.context = context;
         }
 
-        //public async Task SendEmail(string email, string subject, string htmlContent)
-        //{
-        //    string apiKey = configuration["SendGridApiKey"];
-        //    var client = new SendGridClient(apiKey);
-        //    var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
-        //    var to = new EmailAddress(email);
-        //    var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
-        //    var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-        //    var response = await client.SendEmailAsync(msg);
+        public async Task<ResultadosApi> ConfirmEmailAync(string userId, string token)
+        {
+            ResultadosApi resultados = new ResultadosApi();
+            var id = Convert.ToInt32(userId);
+            var user = await context.Usuarios.FindAsync(id);
+            if(user == null)
+            {
+                throw new Exception("No encontrado");
+            }
+            else
+            {
+                var decodedToken = WebEncoders.Base64UrlDecode(token);
+                string normaltoken = Encoding.UTF8.GetString(decodedToken);
 
-        //    var apiKey = configuration["SendGridApiKey"];
-        //    var client = new SendGridClient(apiKey);
-        //    var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
-        //    var tema = subject;
-        //    var to = new EmailAddress(email, "Example User");
-        //    var plainTextContent = "and easy to do anywhere, even with C#";
-        //    var contenidoHtml = htmlContent;
-        //    var msg = MailHelper.CreateSingleEmail(from, to, tema, plainTextContent, contenidoHtml);
-        //    var response = await client.SendEmailAsync(msg);
-        //}
+                //string c = Convert.ToBase64String(decodedToken);
 
-        public async Task ExecuteMail()
+                //string b = normaltoken.Split(new char { ',' }, StringSplitOptions.None);
+
+                var result = await ConfirmEmailAync(userId, normaltoken);
+                if(result != null)
+                {
+                    resultados.Ok = true;
+                    resultados.Respuesta = result;
+                    resultados.InfoAdicional = "Email confirmado";
+                    return resultados;
+                }
+                else
+                {
+                    resultados.Ok = false;
+                    resultados.Error = "Email no confrimado";
+                    return resultados;
+                }
+            }
+        }
+
+        public async Task<ResultadosApi> ConfirmEmailPassAync(string userId, string password)
+        {
+            ResultadosApi resultados = new ResultadosApi();
+            var id = Convert.ToInt32(userId);
+            var user = await context.Usuarios.FindAsync(id);
+            if (user == null)
+            {
+                throw new Exception("No encontrado");
+            }
+            else
+            {                
+                if (password.Equals(user.Password))
+                {
+                    resultados.Ok = true;
+                    user.Activo = true;
+                    context.Usuarios.Update(user);
+                    await context.SaveChangesAsync();
+                    resultados.Respuesta = user;
+                    resultados.InfoAdicional = "Email confirmado";
+                    return resultados;
+                    
+                    //else
+                    //{
+                    //    resultados.Ok = false;
+                    //    resultados.Error = "Email no confrimado";
+                    //    return resultados;
+                    //}
+                }
+                else
+                {
+                    resultados.Ok = false;
+                    resultados.Error = "No se pudo registrar";
+                    return resultados;
+                }
+            }
+            
+        }
+
+        public async Task ExecuteMail(string email, string subject, string content)
         {
             var apiKey = Environment.GetEnvironmentVariable("ApiKey");
+            //var apiKey = configuration["SendGridApiKey"];
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
-            var subject = "Sending with SendGrid is Fun";
-            var to = new EmailAddress("lautarodisbro@gmail.com", "Example to");
-            var plainTextContent = "and easy to do anywhere, even with C#";
-            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var to = new EmailAddress(email);
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
             var response = await client.SendEmailAsync(msg);
         }
+
     }
 }

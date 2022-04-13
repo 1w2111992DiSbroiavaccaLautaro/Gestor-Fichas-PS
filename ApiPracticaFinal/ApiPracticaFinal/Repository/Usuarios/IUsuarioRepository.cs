@@ -18,5 +18,6 @@ namespace ApiPracticaFinal.Repository.Usuarios
         ResultadosApi Login(UsuarioLogin usu);
         Task<Usuario> UpdateRol(UsuarioRolDTO usu);
         Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu);
+        
     }
 }

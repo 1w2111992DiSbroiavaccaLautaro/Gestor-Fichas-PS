@@ -1,7 +1,10 @@
 ﻿using ApiPracticaFinal.Models;
 using ApiPracticaFinal.Models.DTO.UsuariosDTO;
+using ApiPracticaFinal.Repository.SendGrid;
 using ApiPracticaFinal.Resultados;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -16,16 +19,28 @@ namespace ApiPracticaFinal.Repository.Usuarios
     public class UsuarioRepository : IUsuarioRepository
     {
         dd4snj9pkf64vpContext context = new dd4snj9pkf64vpContext();
+        private readonly IConfiguration configuration;
+        private readonly IMailService mailService;
+
         private readonly string key;
 
         public UsuarioRepository(string key)
         {
             this.key = key;
         }
+
+        //public UsuarioRepository(string key, IConfiguration configuration, IMailService mailService)
+        //{
+        //    this.key = key;
+        //    this.configuration = configuration;
+        //    this.mailService = mailService;
+        //}
+
         public string Authenticate(string email, string password)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenKey = Encoding.ASCII.GetBytes(key);
+            //var tokenKey = Encoding.ASCII.GetBytes(key);
+            var tokenKey = Encoding.UTF8.GetBytes(key);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -56,47 +71,70 @@ namespace ApiPracticaFinal.Repository.Usuarios
                 Email = oUser.Email,
                 Password = oUser.Password,
                 Rol = 2,
-                Activo = true
+                Activo = false
             };
 
-            if(u != null)
+            if (u != null)
             {
-                context.Usuarios.Add(u);
-                await context.SaveChangesAsync();
-                return u;
+                var repetido = await context.Usuarios.FirstOrDefaultAsync(x => x.Email == oUser.Email);
+                if (repetido == null)
+                {
+                    context.Usuarios.Add(u);
+                    await context.SaveChangesAsync();
+                    //var confirmToken = Authenticate(oUser.Email, oUser.Password);
+                    //var encodedToken = Encoding.UTF8.GetBytes(confirmToken);
+                    //var validEmailToken = WebEncoders.Base64UrlEncode(encodedToken);
+                    //string url = $"https://localhost:5001/api/usuarios/confirmemail?userid={u.Idusuario}&token={validEmailToken}";
+                    //await mailService.ExecuteMail(u.Email, "Confirmar el mail", "<h1>Bienvenido a la confirmacion de mail</h1>" +
+                    //    $"<p>Porfavor confirma su mail by <a href='{url}'>Click aca</a></p");
+                    return u;
+                }
+                else
+                {
+                    throw new Exception("Usuario ya registrado con ese mail");
+                }
+                
             }
             else
             {
                 throw new Exception("No se pudo registrar el usuario");
             }
-            
+
         }
 
         public ResultadosApi Login(UsuarioLogin usu)
         {
             var token = Authenticate(usu.Email, usu.Password);
 
-            //var result = context.Usuarios.FirstOrDefault(x => x.Email == usu.Email && x.Password == usu.Password);
+            var result = context.Usuarios.FirstOrDefault(x => x.Email == usu.Email && x.Password == usu.Password);
 
             ResultadosApi resultado = new ResultadosApi();
-
-            var u = context.Usuarios.SingleOrDefault(x => x.Email == usu.Email);
-            bool isValidPassword = BCrypt.Net.BCrypt.Verify(usu.Password, u.Password);
-
-            if (isValidPassword)
+            
+            var u = context.Usuarios.SingleOrDefault(x => x.Email == usu.Email && x.Activo == true);
+            if (u != null)
             {
-                if (token == null)
+                bool isValidPassword = BCrypt.Net.BCrypt.Verify(usu.Password, u.Password);
+
+                if (isValidPassword)
                 {
-                    resultado.Error = "No autorizado";
-                    resultado.Ok = false;
-                    return resultado;
+                    if (token == null)
+                    {
+                        resultado.Error = "No autorizado";
+                        resultado.Ok = false;
+                        return resultado;
+                    }
+                    else
+                    {
+                        resultado.Ok = true;
+                        resultado.InfoAdicional = "Login exitoso";
+                        Login lg = new Login(u.Email, token, u.Rol);
+                        resultado.Respuesta = lg;
+                        return resultado;
+                    }
                 }
                 else
                 {
-                    resultado.Ok = true;
-                    resultado.InfoAdicional = "Login exitoso";
-                    Login lg = new Login(u.Email, token, u.Rol);
-                    resultado.Respuesta = lg;
+                    resultado.Error = "Usuario y/o contraseña incorrectos";
                     return resultado;
                 }
             }
@@ -104,7 +142,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
             {
                 resultado.Error = "Usuario y/o contraseña incorrectos";
                 return resultado;
-            }
+            }   
         }
 
         //metodo accesible para todos los usuarios
@@ -166,7 +204,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
             }
         }
 
-        //validar desde el fron que se envie un mail correcto
+        //validar desde el front que se envie un mail correcto
         //metodo accesible para todos los usuarios
         public async Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu)
         {
@@ -198,5 +236,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
                 throw new Exception("No se encontro el usuario");
             }
         }
+
+        
     }
 }

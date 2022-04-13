@@ -32,6 +32,7 @@ namespace ApiPracticaFinal
         }
 
         public IConfiguration Configuration { get; }
+        
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -65,6 +66,7 @@ namespace ApiPracticaFinal
                 };
             });
 
+            //services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
             services.AddSingleton<IUsuarioRepository>(new UsuarioRepository(key));
             services.AddTransient<IPersonalRepository, PersonalRepository>();
             services.AddTransient<IAreaRepository, AreaRepository>();
@@ -103,6 +105,8 @@ namespace ApiPracticaFinal
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 
