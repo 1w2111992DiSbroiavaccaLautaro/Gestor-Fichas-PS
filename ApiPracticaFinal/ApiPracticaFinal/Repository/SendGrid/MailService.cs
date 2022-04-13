@@ -100,8 +100,8 @@ namespace ApiPracticaFinal.Repository.SendGrid
 
         public async Task ExecuteMail(string email, string subject, string content)
         {
-            var apiKey = Environment.GetEnvironmentVariable("ApiKey");
-            //var apiKey = configuration["SendGridApiKey"];
+            //var apiKey = Environment.GetEnvironmentVariable("ApiKey");
+            var apiKey = configuration["SendGridApiKey"];
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
             var to = new EmailAddress(email);
