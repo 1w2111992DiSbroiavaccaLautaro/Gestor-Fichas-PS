@@ -47,7 +47,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
                     {
                         new Claim(ClaimTypes.Name, email)
                     }),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
             };
 
