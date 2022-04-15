@@ -1,4 +1,5 @@
-﻿using ApiPracticaFinal.Models.DTO.ProyectoDTOs;
+﻿using ApiPracticaFinal.Models;
+using ApiPracticaFinal.Models.DTO.ProyectoDTOs;
 using ApiPracticaFinal.Repository.Proyectos;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,9 @@ namespace ApiPracticaFinal.Controllers
 
         // POST api/<ProyectoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<bool> Post(ProyectoInsert proyecto)
         {
+            return await proyectoRepository.Create(proyecto);
         }
 
         // PUT api/<ProyectoController>/5

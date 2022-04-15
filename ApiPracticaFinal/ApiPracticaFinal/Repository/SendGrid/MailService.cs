@@ -11,18 +11,20 @@ using ApiPracticaFinal.Repository.Usuarios;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using ApiPracticaFinal.Resultados;
+using Microsoft.Extensions.Options;
 
 namespace ApiPracticaFinal.Repository.SendGrid
 {
     public class MailService : IMailService
     {
-        private readonly IConfiguration configuration;
+        //private readonly IConfiguration configuration;
         private readonly dd4snj9pkf64vpContext context;
+        private readonly Settings _settings;
 
-        public MailService(IConfiguration configuration, dd4snj9pkf64vpContext context)
+        public MailService(dd4snj9pkf64vpContext context, IOptions<Settings> optionSetting)
         {
-            this.configuration = configuration;
             this.context = context;
+            _settings = optionSetting.Value;
         }
 
         public async Task<ResultadosApi> ConfirmEmailAync(string userId, string token)
@@ -101,9 +103,10 @@ namespace ApiPracticaFinal.Repository.SendGrid
         public async Task ExecuteMail(string email, string subject, string content)
         {
             //var apiKey = Environment.GetEnvironmentVariable("ApiKey");
-            var apiKey = configuration["SendGridApiKey"];           
+            //var apiKey = configuration["SendGridApiKey"];
+            var apiKey = _settings.SendGridApiKey;
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
+            var from = new EmailAddress("lautarodisbro@gmail.com", "Example User");
             var to = new EmailAddress(email);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
             var response = await client.SendEmailAsync(msg);

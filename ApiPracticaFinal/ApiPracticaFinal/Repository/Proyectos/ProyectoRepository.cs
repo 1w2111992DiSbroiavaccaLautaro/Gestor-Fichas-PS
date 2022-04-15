@@ -18,6 +18,97 @@ namespace ApiPracticaFinal.Repository.Proyectos
         {
             this.context = context;
         }
+
+        public async Task<bool> Create(ProyectoInsert proyecto)
+        {
+            Proyecto pro = new Proyecto();
+
+            pro.Activo = true;
+            pro.AnioFinalizacion = proyecto.AnioFinalizacion;
+            pro.AnioInicio = proyecto.AnioInicio;
+            //pro.SsmaTimestamp = new byte[5];
+            pro.MontoContrato = proyecto.MontoContrato;
+            //ver de agregar despues
+            //pro.Monto = proyecto.Monto;
+            pro.NroContrato = proyecto.NroContrato;
+            pro.PaisRegion = proyecto.PaisRegion;
+            pro.Titulo = proyecto.Titulo;
+            pro.Certconformidad = proyecto.Certconformidad;
+            pro.Certificadopor = proyecto.Certificadopor;
+            pro.Moneda = proyecto.Moneda;
+            pro.EnCurso = proyecto.EnCurso;
+            pro.Descripcion = proyecto.Descripcion;
+            pro.Departamento = proyecto.Departamento;
+            pro.ConsultoresAsoc = proyecto.ConsultoresAsoc;
+            pro.Resultados = proyecto.Resultados;
+            pro.MesInicio = proyecto.MesInicio;
+            pro.MesFinalizacion = proyecto.MesFinalizacion;
+            pro.Contratante = proyecto.Contratante;
+            pro.Dirección = proyecto.Dirección;
+            pro.FichaLista = proyecto.FichaLista;
+            pro.Link = proyecto.Link;
+            pro.Convenio = proyecto.Convenio;
+
+            await context.Proyectos.AddAsync(pro);
+            var valor = await context.SaveChangesAsync();
+
+            if (valor == 0)
+            {
+                throw new Exception("No se inserto el proyecto");
+            }
+
+            foreach (var i in proyecto.ListaAreas)
+            {
+                Areasxproyecto area = new Areasxproyecto();
+                area.Idarea = i.IdArea;
+                area.Idproyecto = pro.Id;
+                await context.Areasxproyectos.AddAsync(area);
+
+            }
+
+            foreach (var j in proyecto.ListaPersonal)
+            {
+                Equipoxproyecto equipo = new Equipoxproyecto();
+                equipo.IdPersonal = j.IdPersonal;
+                equipo.Coordinador = j.Coordinador;
+                equipo.IdProyecto = pro.Id;
+                equipo.SsmaTimestamp = new byte[5];
+
+                await context.Equipoxproyectos.AddAsync(equipo);
+            }
+
+            foreach (var p in proyecto.ListaPublicaciones)
+            {
+                Publicacionesxproyecto publi = new Publicacionesxproyecto();
+                publi.Año = p.Año;
+                publi.Codigobcs = p.Codigobcs;
+                publi.IdProyecto = pro.Id;
+                publi.Publicacion = p.Publicacion;
+
+                await context.Publicacionesxproyectos.AddAsync(publi);
+            }
+
+            foreach (var v in proyecto.ListaPresupuestos)
+            {
+                Presupuesto presupuesto = new Presupuesto();
+                presupuesto.Equipamiento = v.Equipamiento;
+                presupuesto.Gastos = v.Gastos;
+                presupuesto.Viatico = v.Viatico;
+                presupuesto.Honorario = v.Honorario;
+                presupuesto.Idproyecto = pro.Id;
+
+                await context.Presupuestos.AddAsync(presupuesto);
+            }
+
+            valor = await context.SaveChangesAsync();
+
+            if (valor == 0)
+            {
+                throw new Exception("No se pudo insertar el proyecto con area y/o personal y/o presupuesto y/o publicaciones");
+            }
+            return true;
+        }
+
         public async Task<List<ProyectoDTO>> GetProyectos()
         {
             var proyectos = await context.Proyectos.Where(i => i.Activo.Equals(true)).OrderByDescending(x => x.Id).ToListAsync();

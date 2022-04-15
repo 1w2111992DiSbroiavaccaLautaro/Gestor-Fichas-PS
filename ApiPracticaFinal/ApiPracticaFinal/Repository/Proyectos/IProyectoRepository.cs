@@ -1,4 +1,5 @@
-﻿using ApiPracticaFinal.Models.DTO.ProyectoDTOs;
+﻿using ApiPracticaFinal.Models;
+using ApiPracticaFinal.Models.DTO.ProyectoDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace ApiPracticaFinal.Repository.Proyectos
     public interface IProyectoRepository
     {
         Task<List<ProyectoDTO>> GetProyectos();
+        Task<bool> Create(ProyectoInsert proyecto);
     }
 }

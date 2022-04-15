@@ -41,6 +41,8 @@ namespace ApiPracticaFinal
             services.AddDbContext<dd4snj9pkf64vpContext>(option =>
             option.UseNpgsql(Configuration.GetConnectionString("DefaultConnectionString")));
 
+            services.Configure<Settings>(Configuration.GetSection("Settings"));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
