@@ -63,7 +63,6 @@ namespace ApiPracticaFinal.Repository.Proyectos
                 area.Idarea = i.IdArea;
                 area.Idproyecto = pro.Id;
                 await context.Areasxproyectos.AddAsync(area);
-
             }
 
             foreach (var j in proyecto.ListaPersonal)
@@ -106,6 +105,19 @@ namespace ApiPracticaFinal.Repository.Proyectos
             {
                 throw new Exception("No se pudo insertar el proyecto con area y/o personal y/o presupuesto y/o publicaciones");
             }
+            return true;
+        }
+
+        public async Task<bool> Delete(int id)
+        {
+            var proyecto = await context.Proyectos.FirstOrDefaultAsync(x => x.Id == id);
+            if (proyecto == null)
+            {
+                throw new Exception("No se econtro el proyecto");
+            }
+
+            proyecto.Activo = false;
+            await context.SaveChangesAsync();
             return true;
         }
 
@@ -202,6 +214,116 @@ namespace ApiPracticaFinal.Repository.Proyectos
                 listProyectoDto.Add(proyectoDto);
             }
             return listProyectoDto;
+        }
+
+        public async Task<bool> Update(ProyectoUpdate proyecto)
+        {
+            var pro = await context.Proyectos.FirstOrDefaultAsync(x => x.Id == proyecto.IdProyecto);
+            if (pro == null)
+            {
+                throw new Exception("Proyecto no encontrado");
+            }
+
+            pro.Activo = proyecto.Activo ?? pro.Activo;
+            pro.AnioFinalizacion = proyecto.AnioFinalizacion ?? pro.AnioFinalizacion;
+            pro.AnioInicio = proyecto.AnioInicio ?? pro.AnioInicio;
+            //pro.SsmaTimestamp = new byte[5];
+            pro.MontoContrato = proyecto.MontoContrato ?? pro.MontoContrato;
+            pro.NroContrato = proyecto.NroContrato ?? pro.NroContrato;
+            pro.PaisRegion = proyecto.PaisRegion ?? pro.PaisRegion;
+            pro.Titulo = proyecto.Titulo ?? pro.Titulo;
+            pro.Certconformidad = proyecto.Certconformidad ?? pro.Certconformidad;
+            pro.Certificadopor = proyecto.Certificadopor ?? pro.Certificadopor;
+            pro.Moneda = proyecto.Moneda ?? pro.Moneda;
+            pro.EnCurso = proyecto.EnCurso ?? pro.EnCurso;
+            pro.Descripcion = proyecto.Descripcion ?? pro.Descripcion;
+            pro.Departamento = proyecto.Departamento ?? pro.Departamento;
+            pro.ConsultoresAsoc = proyecto.ConsultoresAsoc ?? pro.ConsultoresAsoc;
+            pro.Resultados = proyecto.Resultados ?? pro.Resultados;
+            pro.MesInicio = proyecto.MesInicio ?? pro.MesInicio;
+            pro.MesFinalizacion = proyecto.MesFinalizacion ?? pro.MesFinalizacion;
+            pro.Contratante = proyecto.Contratante ?? pro.Contratante;
+            pro.Dirección = proyecto.Dirección ?? pro.Dirección;
+            pro.FichaLista = proyecto.FichaLista ?? pro.FichaLista;
+            pro.Link = proyecto.Link ?? pro.Link;
+            pro.Convenio = proyecto.Convenio ?? pro.Convenio;
+
+            var areaxproyecto = await context.Areasxproyectos.Where(x => x.Idproyecto == proyecto.IdProyecto).ToListAsync();
+            foreach (var i in areaxproyecto)
+            {
+                context.Areasxproyectos.Remove(i);
+                await context.SaveChangesAsync();
+            }
+
+            foreach (var i in proyecto.ListaAreas)
+            {
+                Areasxproyecto area = new Areasxproyecto();
+                area.Idarea = i.IdArea;
+                area.Idproyecto = pro.Id;
+                await context.Areasxproyectos.AddAsync(area);
+            }
+
+            var equipoxproyecto = await context.Equipoxproyectos.Where(x => x.IdProyecto == proyecto.IdProyecto).ToListAsync();
+            foreach (var item in equipoxproyecto)
+            {
+                context.Equipoxproyectos.Remove(item);
+                await context.SaveChangesAsync();
+            }
+
+            foreach (var j in proyecto.ListaPersonal)
+            {
+                Equipoxproyecto equipo = new Equipoxproyecto();
+                equipo.IdPersonal = j.IdPersonal;
+                equipo.Coordinador = j.Coordinador;
+                equipo.IdProyecto = pro.Id;
+                equipo.SsmaTimestamp = new byte[5];
+                await context.Equipoxproyectos.AddAsync(equipo);
+            }
+
+            var publicacionesxproyecto = await context.Publicacionesxproyectos.Where(x => x.IdProyecto == proyecto.IdProyecto).ToListAsync();
+            foreach (var a in publicacionesxproyecto)
+            {
+                context.Publicacionesxproyectos.Remove(a);
+                await context.SaveChangesAsync();
+            }
+
+            foreach (var p in proyecto.ListaPublicaciones)
+            {
+                Publicacionesxproyecto publi = new Publicacionesxproyecto();
+                publi.Año = p.Año;
+                publi.Codigobcs = p.Codigobcs;
+                publi.IdProyecto = pro.Id;
+                publi.Publicacion = p.Publicacion;
+
+                await context.Publicacionesxproyectos.AddAsync(publi);
+            }
+
+            var presupuestoxproyecto = await context.Presupuestos.Where(x => x.Idproyecto == proyecto.IdProyecto).ToListAsync();
+            foreach (var p in presupuestoxproyecto)
+            {
+                context.Presupuestos.Remove(p);
+                await context.SaveChangesAsync();
+            }
+
+            foreach (var v in proyecto.ListaPresupuestos)
+            {
+                Presupuesto presupuesto = new Presupuesto();
+                presupuesto.Equipamiento = v.Equipamiento;
+                presupuesto.Gastos = v.Gastos;
+                presupuesto.Viatico = v.Viatico;
+                presupuesto.Honorario = v.Honorario;
+                presupuesto.Idproyecto = pro.Id;
+
+                await context.Presupuestos.AddAsync(presupuesto);
+            }
+
+            context.Proyectos.Update(pro);
+            var valor = await context.SaveChangesAsync();
+
+            if (valor == 0)
+                throw new Exception("No se pudo actualizar el proyecto");
+
+            return true;
         }
     }
 }

@@ -11,5 +11,7 @@ namespace ApiPracticaFinal.Repository.Proyectos
     {
         Task<List<ProyectoDTO>> GetProyectos();
         Task<bool> Create(ProyectoInsert proyecto);
+        Task<bool> Update(ProyectoUpdate proyecto);
+        Task<bool> Delete(int id);
     }
 }

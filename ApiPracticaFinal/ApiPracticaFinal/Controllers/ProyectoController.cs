@@ -36,8 +36,6 @@ namespace ApiPracticaFinal.Controllers
             return "value";
         }
 
-        //hola
-
         // POST api/<ProyectoController>
         [HttpPost]
         public async Task<bool> Post(ProyectoInsert proyecto)
@@ -46,15 +44,17 @@ namespace ApiPracticaFinal.Controllers
         }
 
         // PUT api/<ProyectoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<bool> Put(ProyectoUpdate proyecto)
         {
+            return await proyectoRepository.Update(proyecto);
         }
 
         // DELETE api/<ProyectoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
+            return await proyectoRepository.Delete(id);
         }
     }
 }
