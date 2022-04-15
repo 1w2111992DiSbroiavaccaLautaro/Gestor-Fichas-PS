@@ -1,0 +1,2 @@
+#ignora todos los archivos .json
+*.json
