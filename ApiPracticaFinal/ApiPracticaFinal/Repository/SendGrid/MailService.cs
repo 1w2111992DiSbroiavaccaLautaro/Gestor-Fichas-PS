@@ -106,7 +106,7 @@ namespace ApiPracticaFinal.Repository.SendGrid
             //var apiKey = configuration["SendGridApiKey"];
             var apiKey = _settings.SendGridApiKey;
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("lautarodisbro@gmail.com", "Example User");
+            var from = new EmailAddress("111992@tecnicatura.frc.utn.edu.ar", "Example User");
             var to = new EmailAddress(email);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, content, content);
             var response = await client.SendEmailAsync(msg);

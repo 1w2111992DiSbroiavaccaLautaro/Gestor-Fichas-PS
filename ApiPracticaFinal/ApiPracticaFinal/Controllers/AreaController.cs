@@ -1,6 +1,7 @@
 ﻿using ApiPracticaFinal.Models;
 using ApiPracticaFinal.Models.DTO.Areas;
 using ApiPracticaFinal.Repository.Areas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,6 +17,7 @@ namespace ApiPracticaFinal.Controllers
     [ApiController]
     [EnableCors("Prog3")]
     //agregar el autorizado del token
+    [Authorize]
     public class AreaController : ControllerBase
     {
         private readonly IAreaRepository areaRepository;
