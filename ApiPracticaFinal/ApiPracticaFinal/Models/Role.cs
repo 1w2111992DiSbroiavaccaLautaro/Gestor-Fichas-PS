@@ -9,13 +9,13 @@ namespace ApiPracticaFinal.Models
     {
         public Role()
         {
-            Usuarios = new HashSet<Usuario>();
+            Usuarios = new HashSet<UsuarioDTO>();
         }
 
         public int Idrol { get; set; }
         public string Rol { get; set; }
         public char? Trial506 { get; set; }
 
-        public virtual ICollection<Usuario> Usuarios { get; set; }
+        public virtual ICollection<UsuarioDTO> Usuarios { get; set; }
     }
 }

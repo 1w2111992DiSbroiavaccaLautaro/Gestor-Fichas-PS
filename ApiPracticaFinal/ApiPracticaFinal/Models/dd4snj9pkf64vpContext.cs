@@ -26,7 +26,7 @@ namespace ApiPracticaFinal.Models
         public virtual DbSet<Publicacionesxproyecto> Publicacionesxproyectos { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Sysdiagram> Sysdiagrams { get; set; }
-        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<UsuarioDTO> Usuarios { get; set; }
         public virtual DbSet<Validadore> Validadores { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -508,7 +508,7 @@ namespace ApiPracticaFinal.Models
                     .HasComment("TRIAL");
             });
 
-            modelBuilder.Entity<Usuario>(entity =>
+            modelBuilder.Entity<UsuarioDTO>(entity =>
             {
                 entity.HasKey(e => e.Idusuario)
                     .HasName("usuarios_pkey");

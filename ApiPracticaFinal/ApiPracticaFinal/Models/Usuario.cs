@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ApiPracticaFinal.Models
 {
-    public partial class Usuario
+    public partial class UsuarioDTO
     {
         public int Idusuario { get; set; }
         public string Nombre { get; set; }

@@ -56,16 +56,34 @@ namespace ApiPracticaFinal.Repository.Usuarios
         }
 
         //metodo accesible solo para usuarios con rol 1
-        public async Task<List<Usuario>> GetUsuariosAsync()
+        public async Task<List<UsuarioListaDTO>> GetUsuariosAsync()
         {
-            return await context.Usuarios.Where(x => x.Activo == true).ToListAsync();
+            var rolesBD = await context.Roles.ToListAsync();
+            var usuarios = await context.Usuarios.Where(x => x.Activo == true).ToListAsync();
+            List<UsuarioListaDTO> listaDTO = new List<UsuarioListaDTO>();
+
+            foreach (var i in usuarios)
+            {
+                var rolxusuario = rolesBD.FirstOrDefault(x => x.Idrol == i.Rol);
+
+                var usuarioDTO = new UsuarioListaDTO
+                {
+                    Id = i.Idusuario,
+                    Email = i.Email,
+                    Nombre = i.Nombre,
+                    Rol = rolxusuario.Rol
+                };
+                listaDTO.Add(usuarioDTO);
+            }
+
+            return listaDTO;
         }
 
-        public async Task<Usuario> Signup(UsuarioSignUp oUser)
+        public async Task<UsuarioDTO> Signup(UsuarioSignUp oUser)
         {
             oUser.Password = BCrypt.Net.BCrypt.HashPassword(oUser.Password);
 
-            Usuario u = new Usuario
+            UsuarioDTO u = new UsuarioDTO
             {
                 Nombre = oUser.Nombre,
                 Email = oUser.Email,
@@ -188,7 +206,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
         }
 
         //metodo accesible solo para usuarios con rol 1
-        public async Task<Usuario> UpdateRol(UsuarioRolDTO usu)
+        public async Task<UsuarioDTO> UpdateRol(UsuarioRolDTO usu)
         {
             var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Idusuario == usu.Id);
             if (usuario != null)
@@ -206,7 +224,7 @@ namespace ApiPracticaFinal.Repository.Usuarios
 
         //validar desde el front que se envie un mail correcto
         //metodo accesible para todos los usuarios
-        public async Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu)
+        public async Task<UsuarioDTO> UpdateCredenciales(UsuarioCredencialDTO usu)
         {
             var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Idusuario == usu.Id);
             if(usuario != null)

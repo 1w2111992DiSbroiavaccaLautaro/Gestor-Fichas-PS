@@ -11,13 +11,13 @@ namespace ApiPracticaFinal.Repository.Usuarios
     public interface IUsuarioRepository
     {
         string Authenticate(string email, string password);
-        Task<List<Usuario>> GetUsuariosAsync();
+        Task<List<UsuarioListaDTO>> GetUsuariosAsync();
         Task<bool> UpdatePassword(UsuarioUpdatePass usu);
-        Task<Usuario> Signup(UsuarioSignUp oUser);
+        Task<UsuarioDTO> Signup(UsuarioSignUp oUser);
         Task<bool> Delete(int id);
         ResultadosApi Login(UsuarioLogin usu);
-        Task<Usuario> UpdateRol(UsuarioRolDTO usu);
-        Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu);
+        Task<UsuarioDTO> UpdateRol(UsuarioRolDTO usu);
+        Task<UsuarioDTO> UpdateCredenciales(UsuarioCredencialDTO usu);
         
     }
 }

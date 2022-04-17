@@ -34,7 +34,7 @@ namespace ApiPracticaFinal.Controllers
         }
         // GET: api/<UsuariosController>
         [HttpGet]
-        public async Task<List<Usuario>> Get()
+        public async Task<List<UsuarioListaDTO>> Get()
         {
             return await usuarioRepository.GetUsuariosAsync();
         }
@@ -69,7 +69,7 @@ namespace ApiPracticaFinal.Controllers
         //}
 
         [HttpPost]
-        public async Task<Usuario> Post(UsuarioSignUp usu)
+        public async Task<UsuarioDTO> Post(UsuarioSignUp usu)
         {
             var usuario = await usuarioRepository.Signup(usu);
             //var confirmToken = usuarioRepository.Authenticate(usu.Email, usu.Password);
@@ -100,13 +100,13 @@ namespace ApiPracticaFinal.Controllers
         }
 
         [HttpPut("UpdateRol")]
-        public async Task<Usuario> UpdateRol(UsuarioRolDTO usu)
+        public async Task<UsuarioDTO> UpdateRol(UsuarioRolDTO usu)
         {
             return await usuarioRepository.UpdateRol(usu);
         }
 
         [HttpPut("UpdateCredenciales")]
-        public async Task<Usuario> UpdateCredenciales(UsuarioCredencialDTO usu)
+        public async Task<UsuarioDTO> UpdateCredenciales(UsuarioCredencialDTO usu)
         {
             return await usuarioRepository.UpdateCredenciales(usu);
         }
